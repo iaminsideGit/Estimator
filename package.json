@@ -6,12 +6,12 @@
   "main": "src/index.js",
   "dependencies": {
     "immutable": "3.8.2",
-    "react": "16.5.2",
+    "react": "18.0.0-alpha-ed6c091fe-20210701",
     "react-bootstrap": "0.32.4",
-    "react-data-grid": "5.0.1",
+    "react-data-grid": "6.1.0",
     "react-data-grid-addons": "5.0.1",
-    "react-dom": "16.5.2",
-    "react-scripts": "2.0.3"
+    "react-dom": "17.0.2",
+    "react-scripts": "4.0.3"
   },
   "devDependencies": {},
   "scripts": {
