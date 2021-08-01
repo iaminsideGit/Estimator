@@ -145,6 +145,10 @@ function calculate_row(rows) {
   var qty_sum_cc = 0;
   var qty_sum_ew = 0;
   var qty_sum_mh = 0;
+  var qty_sum_bc = 0;
+  var qty_sum_pc = 0;
+  var qty_sum_bd = 0;
+  var qty_sum_lc = 0;
   for (let i = 1; i <= 113; i++) {
     ///BT
     if (i > 0 && i < 8) {
@@ -224,6 +228,7 @@ function calculate_row(rows) {
         parseFloat(rows[i]["L"]);
       rows[i]["Amount"] = rows[i]["Qty"] * rows[i]["Rate"];
     }
+
     // rcc man hole
 
     if (i > 61 && i < 67) {
@@ -232,9 +237,93 @@ function calculate_row(rows) {
       qty_sum_mh = qty_sum_mh + rows[i]["Qty"];
     }
     rows[67]["Qty"] = qty_sum_mh;
-    rows[67]["Amount"] = rows[67]["Qty"] * rows[i]["Rate"];
+    rows[67]["Amount"] = rows[67]["Qty"] * rows[67]["Rate"];
 
-    //return [qty_sum, amount];
+    //barricading
+    if (i > 68 && i < 74) {
+      rows[i]["L"] = rows[i - 50]["L"];
+      rows[i]["Qty"] =
+        parseFloat(rows[i]["item"]) * parseFloat(rows[i]["Nos"]) * rows[i]["L"];
+      qty_sum_bc = qty_sum_bc + rows[i]["Qty"];
+    }
+    rows[74]["Qty"] = qty_sum_bc;
+    rows[74]["Amount"] = rows[74]["Qty"] * rows[74]["Rate"];
+
+    // conveyance of pipe
+    if (i > 75 && i < 81) {
+      rows[i]["L"] = rows[i - 57]["L"];
+      rows[i]["Qty"] =
+        (parseFloat(rows[i]["item"]) *
+          parseFloat(rows[i]["Nos"]) *
+          rows[i]["L"] *
+          rows[i]["B"]) /
+        1000;
+      qty_sum_pc = qty_sum_pc + rows[i]["Qty"];
+    }
+    rows[81]["Qty"] = qty_sum_bc;
+    rows[81]["Amount"] = rows[81]["Qty"] * rows[81]["Rate"];
+
+    // making dummy
+    if (i > 82 && i < 85) {
+      rows[i]["Qty"] = parseFloat(rows[i]["item"]) * parseFloat(rows[i]["Nos"]);
+      rows[i]["Amount"] = rows[i]["Qty"] * rows[i]["Rate"];
+    }
+
+    // bailing of water
+    if (i > 85 && i < 87) {
+      rows[i]["Qty"] =
+        parseFloat(rows[i]["item"]) *
+        parseFloat(rows[i]["Nos"]) *
+        parseFloat(rows[i]["L"]) *
+        parseFloat(rows[i]["B"]);
+      rows[i]["Amount"] = rows[i]["Qty"] * rows[i]["Rate"];
+    }
+    // air valve
+
+    if (i > 87 && i < 89) {
+      rows[i]["Qty"] = parseFloat(rows[i]["item"]) * parseFloat(rows[i]["Nos"]);
+      rows[i]["Amount"] = rows[i]["Qty"] * rows[i]["Rate"];
+    }
+
+    // air valve cabin
+    if (i > 89 && i < 91) {
+      rows[i]["Qty"] = parseFloat(rows[i]["item"]) * parseFloat(rows[i]["Nos"]);
+      rows[i]["Amount"] = rows[i]["Qty"] * rows[i]["Rate"];
+    }
+    // bedding to tenches
+
+    if (i > 91 && i < 97) {
+      rows[i]["L"] = rows[i - 82]["L"];
+      rows[i]["B"] = rows[i - 82]["B"];
+      rows[i]["D"] = rows[i - 82]["D"];
+
+      rows[i]["Qty"] =
+        parseFloat(rows[i]["item"]) *
+        parseFloat(rows[i]["Nos"]) *
+        parseFloat(rows[i]["L"]) *
+        parseFloat(rows[i]["B"]) *
+        parseFloat(rows[i]["D"]);
+      qty_sum_bd = qty_sum_bd + rows[i]["Qty"];
+    }
+    rows[97]["Qty"] = qty_sum_bd;
+    rows[97]["Amount"] = rows[97]["Qty"] * rows[97]["Rate"];
+
+    // laying cc prop
+    if (i > 98 && i < 104) {
+      rows[i]["L"] = rows[i - 89]["L"];
+      rows[i]["B"] = rows[i - 89]["B"];
+      rows[i]["D"] = rows[i - 89]["D"];
+
+      rows[i]["Qty"] =
+        parseFloat(rows[i]["item"]) *
+        parseFloat(rows[i]["Nos"]) *
+        parseFloat(rows[i]["L"]) *
+        parseFloat(rows[i]["B"]) *
+        parseFloat(rows[i]["D"]);
+      qty_sum_bd = qty_sum_bd + rows[i]["Qty"];
+    }
+    rows[104]["Qty"] = qty_sum_bd;
+    rows[104]["Amount"] = rows[104]["Qty"] * rows[104]["Rate"];
   }
   return rows;
 }
@@ -294,9 +383,9 @@ class Example extends React.Component {
       // }
 
       // formatrow(rows1);
-      this.setState({
-        refresh: true
-      });
+      // this.setState({
+      //   refresh: true
+      // });
       return { rows1 };
     });
   };
