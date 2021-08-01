@@ -7,7 +7,7 @@ import "./styles.css";
 import createRowData from "./Rowdata";
 
 const defaultColumnProperties = {
-  sortable: true,
+  sortable: false,
   editable: true,
   resizable: true
 };
@@ -61,12 +61,12 @@ const columns = [
   { key: "Amount", name: "Amount", editable: true }
 ].map((c) => ({ ...c, ...defaultColumnProperties }));
 
-console.log(createRowData());
+//console.log(createRowData());
 const rows1 = createRowData();
 //const rows2 = createRowData();
 //const rows3 = createRowData();
 const keys = Object.keys(rows1[0]);
-console.log(keys);
+//console.log(keys);
 
 function formatrow(rows) {
   for (const key of keys) {
@@ -117,6 +117,127 @@ function formatrow(rows) {
     }
   }
 }
+const descrows = [
+  0,
+  9,
+  18,
+  27,
+  29,
+  35,
+  41,
+  47,
+  53,
+  61,
+  68,
+  75,
+  82,
+  85,
+  87,
+  89,
+  91,
+  98,
+  105,
+  114
+];
+
+function calculate_row(rows) {
+  var qty_sum_bt = 0;
+  var qty_sum_cc = 0;
+  var qty_sum_ew = 0;
+  var qty_sum_mh = 0;
+  for (let i = 1; i <= 113; i++) {
+    ///BT
+    if (i > 0 && i < 8) {
+      rows[i]["Qty"] =
+        parseFloat(rows[i]["item"]) *
+        parseFloat(rows[i]["Nos"]) *
+        parseFloat(rows[i]["L"]) *
+        parseFloat(rows[i]["B"]);
+      qty_sum_bt = qty_sum_bt + rows[i]["Qty"];
+    }
+    rows[8]["Qty"] = qty_sum_bt;
+    rows[8]["Amount"] = qty_sum_bt * rows[8]["Rate"] * 0.1;
+    ///CC
+    if (i > 9 && i < 17) {
+      rows[i]["Qty"] =
+        parseFloat(rows[i]["item"]) *
+        parseFloat(rows[i]["Nos"]) *
+        parseFloat(rows[i]["L"]) *
+        parseFloat(rows[i]["B"]) *
+        parseFloat(rows[i]["D"]);
+      qty_sum_cc = qty_sum_cc + rows[i]["Qty"];
+    }
+    rows[17]["Qty"] = qty_sum_cc;
+    rows[17]["Amount"] = qty_sum_cc * rows[26]["Rate"];
+    //EW
+    if (i > 18 && i < 26) {
+      rows[i]["Qty"] =
+        parseFloat(rows[i]["item"]) *
+        parseFloat(rows[i]["Nos"]) *
+        parseFloat(rows[i]["L"]) *
+        parseFloat(rows[i]["B"]) *
+        parseFloat(rows[i]["D"]);
+      qty_sum_ew = qty_sum_ew + rows[i]["Qty"];
+    }
+    rows[26]["Qty"] = qty_sum_ew;
+    rows[26]["Amount"] = qty_sum_ew * rows[26]["Rate"];
+    /// sheet rock
+    if (i > 27 && i < 29) {
+      rows[i]["Qty"] = 0.15 * rows[26]["Qty"]; // 15 % qty from ew
+      rows[i]["Amount"] = rows[i]["Qty"] * rows[i]["Rate"];
+    }
+    /// cutting of pipe
+    if (i > 29 && i <= 34) {
+      rows[i]["Qty"] = parseFloat(rows[i]["item"]) * parseFloat(rows[i]["Nos"]);
+      rows[i]["Amount"] = rows[i]["Qty"] * rows[i]["Rate"];
+    }
+    //laying of pipes
+    if (i > 35 && i <= 40) {
+      rows[i]["L"] = rows[i - 17]["L"];
+      rows[i]["Qty"] =
+        parseFloat(rows[i]["item"]) * parseFloat(rows[i]["Nos"]) * rows[i]["L"];
+      rows[i]["Amount"] = rows[i]["Qty"] * rows[i]["Rate"];
+    }
+    //jointing of pipes
+    if (i > 41 && i <= 46) {
+      rows[i]["L"] = Math.ceil(rows[i - 23]["L"] / 5.5);
+      rows[i]["Qty"] =
+        parseFloat(rows[i]["item"]) * parseFloat(rows[i]["Nos"]) * rows[i]["L"];
+      rows[i]["Amount"] = rows[i]["Qty"] * rows[i]["Rate"];
+    }
+    // lowering valves
+    if (i > 47 && i <= 52) {
+      rows[i]["Qty"] = parseFloat(rows[i]["item"]) * parseFloat(rows[i]["Nos"]);
+      rows[i]["Amount"] = rows[i]["Qty"] * rows[i]["Rate"];
+    }
+    // join pipe and valve
+    if (i > 53 && i <= 58) {
+      rows[i]["Nos"] = rows[i - 6]["Nos"];
+      rows[i]["Qty"] = parseFloat(rows[i]["item"]) * parseFloat(rows[i]["Nos"]);
+      rows[i]["Amount"] = rows[i]["Qty"] * rows[i]["Rate"];
+    }
+    // redoing 15 mm dia ppc connection & 100mm sewerage
+    if (i > 58 && i < 61) {
+      rows[i]["Qty"] =
+        parseFloat(rows[i]["item"]) *
+        parseFloat(rows[i]["Nos"]) *
+        parseFloat(rows[i]["L"]);
+      rows[i]["Amount"] = rows[i]["Qty"] * rows[i]["Rate"];
+    }
+    // rcc man hole
+
+    if (i > 61 && i < 67) {
+      rows[i]["Nos"] = rows[i - 14]["Nos"];
+      rows[i]["Qty"] = parseFloat(rows[i]["item"]) * parseFloat(rows[i]["Nos"]);
+      qty_sum_mh = qty_sum_mh + rows[i]["Qty"];
+    }
+    rows[67]["Qty"] = qty_sum_mh;
+    rows[67]["Amount"] = rows[67]["Qty"] * rows[i]["Rate"];
+
+    //return [qty_sum, amount];
+  }
+  return rows;
+}
 
 // for (let i = 0; i < rows1.length; i++) {
 //   console.log(rows1[i]["Description"].length);
@@ -125,93 +246,57 @@ function formatrow(rows) {
 class Example extends React.Component {
   state = { rows1 };
 
-  onGridRowsUpdated1 = ({ fromRow, toRow, updated }) => {
+  onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
     this.setState((state) => {
-      const rows1 = state.rows1;
+      var rows1 = state.rows1;
 
       //rows1[0]["Nos"] = "";
+      // console.log(fromRow);
+      //console.log(toRow);
 
-      for (let i = fromRow; i <= toRow; i++) {
-        rows1[i] = { ...rows1[i], ...updated };
+      if (!descrows.includes(fromRow)) {
+        for (let i = fromRow; i <= toRow; i++) {
+          rows1[i] = { ...rows1[i], ...updated };
+        }
       }
+      // console.log(rows1);
 
-      const descrows = [
-        0,
-        9,
-        18,
-        27,
-        29,
-        35,
-        41,
-        47,
-        53,
-        35,
-        61,
-        68,
-        75,
-        82,
-        85,
-        87,
-        89,
-        91,
-        98,
-        105,
-        114
-      ];
-      for (var i in descrows) {
-        for (const key of keys) {
-          if (key === "SlNo") {
-            rows1[i][key] = createRowData()[i][key];
-          }
-          if (key === "Description") {
-            rows1[i][key] = createRowData()[i][key];
-          }
+      rows1 = calculate_row(rows1);
+
+      for (let i = 0; i <= 119; i++) {
+        if (!descrows.includes(i)) {
+          rows1[i] = { ...rows1[i] };
         }
       }
 
-      // BT Calcs
-      var bt_qty_sum = 0;
-      if (String(rows1[0]["Description"]).includes("Cutting open BT")) {
-        for (let i = 1; i <= 7; i++) {
-          rows1[i]["unit"] = "Sqm";
+      // console.log(rows1);
 
-          var qty = parseFloat(rows1[i]["L"]) * parseFloat(rows1[i]["B"]);
-          rows1[i]["Qty"] = qty;
-          bt_qty_sum = bt_qty_sum + parseFloat(rows1[i]["Qty"]);
-          rows1[8]["Qty"] = bt_qty_sum;
-        }
-      }
-      // rows1[8]["Qty"] = bt_qty_sum;
-      rows1[8]["Amount"] =
-        (parseFloat(rows1[8]["Qty"]).toFixed(2) *
-          parseFloat(rows1[8]["Rate"])) /
-        10;
+      // // BT Calcs
 
-      if (String(rows1[0]["Description"]).includes("Cutting open CC")) {
-        rows1[8]["Rate"] = 2793.0;
-        rows1[8]["unit_rate"] = "Cum";
-        for (let i = 1; i <= 7; i++) {
-          for (const key of keys) {
-            if (key === "unit") {
-              rows1[i][key] = "Cum";
-            }
-          }
-        }
-      }
-      if (String(rows1[9]["Description"]).includes("Earth work excavation")) {
-        rows1[8]["Rate"] = 343.0;
-        rows1[8]["unit_rate"] = "Cum";
-        for (let i = 1; i <= 7; i++) {
-          for (const key of keys) {
-            if (key === "unit") {
-              rows1[i][key] = "Cum";
-            }
-          }
-        }
-      }
+      // const bt_qtynamt = calculate_row(1, 7, 8, "BT", rows1, 0.1);
+      // rows1[8]["Qty"] = parseFloat(bt_qtynamt[0]).toFixed(2);
+      // rows1[8]["Amount"] = parseFloat(bt_qtynamt[1]).toFixed(2);
 
-      formatrow(rows1);
+      // // CC Calcs
+      // var cc_qtynamt = calculate_row(10, 17, 18, "CC", rows1, 1);
+      // rows1[18]["Qty"] = parseFloat(cc_qtynamt[0]).toFixed(2);
+      // rows1[18]["Amount"] = parseFloat(cc_qtynamt[1]).toFixed(2);
 
+      // for (var i in descrows) {
+      //   for (const key of keys) {
+      //     if (key === "SlNo") {
+      //       rows1[i][key] = createRowData()[i][key];
+      //     }
+      //     if (key === "Description") {
+      //       rows1[i][key] = createRowData()[i][key];
+      //     }
+      //   }
+      // }
+
+      // formatrow(rows1);
+      this.setState({
+        refresh: true
+      });
       return { rows1 };
     });
   };
@@ -225,7 +310,7 @@ class Example extends React.Component {
         //rowHeight={(i) => rows[i]['Description'].length}
         rowHeight={30}
         rowsCount={this.state.rows1.length}
-        onGridRowsUpdated={this.onGridRowsUpdated1}
+        onGridRowsUpdated={this.onGridRowsUpdated}
         enableCellSelect={true}
         enableCellAutoFocus={true}
         minHeight={this.state.rows1.length * 30}
