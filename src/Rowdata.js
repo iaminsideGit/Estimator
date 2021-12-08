@@ -13,7 +13,8 @@ function Rowdata() {
       Qty_unit: "",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COBT_desc"
     },
     {
       SlNo: "",
@@ -27,7 +28,8 @@ function Rowdata() {
       Qty_unit: "Sqm",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COBT__data_300pl"
     },
     {
       SlNo: "",
@@ -41,7 +43,8 @@ function Rowdata() {
       Qty_unit: "Sqm",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COBT__data_250pl"
     },
     {
       SlNo: "",
@@ -55,7 +58,8 @@ function Rowdata() {
       Qty_unit: "Sqm",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COBT__data_200pl"
     },
     {
       SlNo: "",
@@ -69,7 +73,8 @@ function Rowdata() {
       Qty_unit: "Sqm",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COBT__data_150pl"
     },
     {
       SlNo: "",
@@ -83,7 +88,8 @@ function Rowdata() {
       Qty_unit: "Sqm",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COBT__data_100pl"
     },
     {
       SlNo: "",
@@ -97,7 +103,9 @@ function Rowdata() {
       Qty_unit: "Sqm",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COBT__data_jp"
+      
     },
     {
       SlNo: "",
@@ -111,7 +119,8 @@ function Rowdata() {
       Qty_unit: "Sqm",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COBT__data_svt"
     },
     {
       SlNo: "",
@@ -125,7 +134,8 @@ function Rowdata() {
       Qty_unit: "Sqm",
       Rate: "1342.00",
       unit: "10Sqm",
-      Amount: "0.00"
+      Amount: "0.00",
+      row_identity: "COBT__amt"
     },
     /// CC starts here
     {
@@ -141,7 +151,8 @@ function Rowdata() {
       Qty_unit: "",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COCC_desc"
     },
     {
       SlNo: "",
@@ -155,7 +166,8 @@ function Rowdata() {
       Qty_unit: "Cum",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COCC__data_300pl"
     },
     {
       SlNo: "",
@@ -169,7 +181,8 @@ function Rowdata() {
       Qty_unit: "Cum",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COCC__data_250pl"
     },
     {
       SlNo: "",
@@ -183,7 +196,8 @@ function Rowdata() {
       Qty_unit: "Cum",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COCC__data_200pl"
     },
     {
       SlNo: "",
@@ -197,7 +211,8 @@ function Rowdata() {
       Qty_unit: "Cum",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COCC__data_150pl"
     },
     {
       SlNo: "",
@@ -211,7 +226,8 @@ function Rowdata() {
       Qty_unit: "Cum",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COCC__data_100pl"
     },
     {
       SlNo: "",
@@ -225,7 +241,8 @@ function Rowdata() {
       Qty_unit: "Cum",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COCC__data_jp"
     },
     {
       SlNo: "",
@@ -239,7 +256,8 @@ function Rowdata() {
       Qty_unit: "Sqm",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "COCC__data_svt"
     },
     {
       SlNo: "",
@@ -253,7 +271,8 @@ function Rowdata() {
       Qty_unit: "Cum",
       Rate: "2793.00",
       unit: "Cum",
-      Amount: "0.00"
+      Amount: "0.00",
+      row_identity: "COCC_amt"
     },
     {
       SlNo: "3",
@@ -268,7 +287,8 @@ function Rowdata() {
       Qty_unit: "",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "EWEX_desc"
     },
     {
       SlNo: "",
@@ -282,7 +302,8 @@ function Rowdata() {
       Qty_unit: "Cum",
       Rate: "",
       unit: "",
-      Amount: ""
+      Amount: "",
+      row_identity: "EWEX_data_300pl"
     },
     {
       SlNo: "",
